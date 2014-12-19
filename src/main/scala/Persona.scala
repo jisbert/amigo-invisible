@@ -27,7 +27,14 @@ case class Persona(nombre: String, pareja: Option[String]) {
   def puedeSerMiAmiga(ella: Persona) = nombre != ella.nombre && !esMiPareja(ella)
 }
 
+
+
+/** Define métodos de ordenación estáticos de la clase Persona. */
 object Persona {
-  implicit def orderingByNombre[A <: Persona]: Ordering[A] = Ordering.by(_.nombre)
-  val orderingByEmparejado: Ordering[Persona] = Ordering.by(_.pareja)
+
+  /** Ordena las personas alfabéticamente por su nombre. */
+  implicit def ordenarPorNombre[A <: Persona]: Ordering[A] = Ordering.by(_.nombre)
+
+  /** Ordena primero a las personas solteras y a continuación las que tienen pareja alfabéticamente por el nombre de su pareja. */
+  val ordenarPorEmparejado: Ordering[Persona] = Ordering.by(_.pareja)
 }
