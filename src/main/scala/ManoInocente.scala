@@ -3,14 +3,9 @@ import scala.util.Random
 
 object ManoInocente {
   def main(args: Array[String]): Unit = {
-    // Distingue entre solteros y parejas
-    val p = """([\p{L} ]*) y ([\p{L} ]*)""".r
-    for (n <- args) {
-      n match {
-        case p(a, b) => ???
-        case s => ???
-      }
-    }
+    val personas = procesaNombres(args)
+    val amigas = emparejaAmigas(personas, personas, Map[String, String]())
+    println(amigas.mkString("(", ",", ")"))
   }
 
   /** Procesa nombres y devuelve un conjunto no ordenado de personas únicas.
