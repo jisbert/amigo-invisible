@@ -1,17 +1,23 @@
-/** Persona.
+/** Una persona para el sorteo de amigo invisible.
   *
-  * @param nombre Nombre de la persona.
-  * @param pareja Opción que refleja el nombre de la pareja si es que la tiene.
+  * @constructor Crea una persona con nombre y pareja, si la tiene.
+  * @param nombre nombre de la persona.
+  * @param pareja nombre de la pareja si es que la tiene.
   *
   * @author Jose Gisbert <jgisbert@umh.es>
   * @version 0.1.0
   * @since 18/12/2014
   */
 case class Persona(nombre: String, pareja: Option[String]) {
-  /** Determina si esta persona es pareja de la otra persona. Si una de las personas no considera pareja a la otra el método determina que no son pareja.
+
+  /** Determina si esta persona es pareja de la otra persona. Devuelve:
     *
-    * @param ella La otra persona
-    * @return Devuelve cierto si ambos tiene pareja y la pareja del uno es la del otro
+    *  a. Verdadero si ambas personas tienen pareja y la pareja de una es la de la otra.
+    *  b. Falso si ambas tienen pareja y la de una no es la de la otra.
+    *  c. Nada si alguna de las personas no tiene pareja.
+    *
+    * @param ella la otra persona.
+    * @return booleano que indica si esta persona es pareja de la otra persona.
     */
   def esMiPareja(ella: Persona) = {
     val somosPareja =
@@ -23,6 +29,9 @@ case class Persona(nombre: String, pareja: Option[String]) {
   }
 
   /** Determina si esta persona puede ser amiga de la otra persona. Si son la misma persona o son pareja no pueden ser amigas.
+    *
+    * @param ella la otra persona.
+    * @return verdadero si las personas pueden ser amigas.
     */
   def puedeSerMiAmiga(ella: Persona) = nombre != ella.nombre && !esMiPareja(ella)
 }
