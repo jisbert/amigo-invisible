@@ -10,6 +10,12 @@
   */
 case class Persona(nombre: String, pareja: Option[String]) {
 
+  /** Determina si esta persona y la otra son la misma. */
+  override def equals(arg0: Any) = arg0 match {
+    case Persona(suNombre, _) => nombre == suNombre
+    case _ => false
+  }
+
   /** Determina si esta persona es pareja de la otra persona. Devuelve:
     *
     *  a. Verdadero si ambas personas tienen pareja y la pareja de una es la de la otra.
@@ -33,7 +39,7 @@ case class Persona(nombre: String, pareja: Option[String]) {
     * @param ella la otra persona.
     * @return verdadero si las personas pueden ser amigas.
     */
-  def puedeSerMiAmiga(ella: Persona) = nombre != ella.nombre && !esMiPareja(ella)
+  def puedeSerMiAmiga(ella: Persona) = this == ella && !esMiPareja(ella)
 }
 
 
