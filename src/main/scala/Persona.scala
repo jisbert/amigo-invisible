@@ -24,7 +24,7 @@ case class Persona(nombre: String, pareja: Option[String]) {
 
   /** Determina si esta persona puede ser amiga de la otra persona. Si son la misma persona o son pareja no pueden ser amigas.
     */
-  val puedeSerMiAmiga: (Persona) => Boolean = esMiPareja _ andThen(!_)
+  def puedeSerMiAmiga(ella: Persona) = nombre != ella.nombre && !esMiPareja(ella)
 }
 
 object Persona {
