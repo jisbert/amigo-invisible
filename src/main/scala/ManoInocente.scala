@@ -36,7 +36,9 @@ object ManoInocente {
     personas.flatten.toSet
   }
 
-  /** Combina personas de acuerdo a las reglas del juego de amigo invisible.
+  /** @todo Revisar el bucle while, hay un proceso infinito en el código y probablemente esté ahí. 
+    *
+    * Combina personas de acuerdo a las reglas del juego de amigo invisible.
     *
     * Toma dos conjuntos de personas y asigna aleatoriamente a cada persona del primer conjunto una persona del segundo con las siguientes restricciones (la condición de elegibilidad está implementada en [[Persona.puedeSerMiAmiga()]]):
     *
