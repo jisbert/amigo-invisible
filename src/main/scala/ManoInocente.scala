@@ -56,7 +56,7 @@ object ManoInocente {
     * @return mapa que relaciona el nombre de la persona con el de la amiga asignada.
     */
   @tailrec
-  def combinaAmigas(eligen: Set[Persona], elegidas: Set[Persona], combinaciones: Map[String, String]): Map[String, String] = {
+  def emparejaAmigas(eligen: Set[Persona], elegidas: Set[Persona], combinaciones: Map[String, String]): Map[String, String] = {
     if (eligen.isEmpty || elegidas.isEmpty) {
       combinaciones
     } else {
@@ -64,7 +64,7 @@ object ManoInocente {
       while (!(elige puedeSerMiAmiga elegidas.head)) {Random.shuffle(elegidas)}
       val elegida = elegidas.head
       combinaciones + (elige.nombre -> elegida.nombre)
-      combinaAmigas(eligen.tail, elegidas.tail, combinaciones)
+      emparejaAmigas(eligen.tail, elegidas.tail, combinaciones)
     }
   }
 }
