@@ -1,10 +1,13 @@
 import scala.annotation.tailrec
 import scala.util.Random
+import Persona._
 
 object ManoInocente {
   def main(args: Array[String]): Unit = {
     val personas = procesaNombres(args)
-    val amigas = emparejaAmigas(personas, personas, Map[String, String]())
+    val eligen = personas.toList.sorted(ordenarPorEmparejado).reverse
+    val elegidas = Random.shuffle(personas.toList)
+    val amigas = emparejaAmigas(eligen, elegidas, Map[String, String]())
     println(amigas.mkString("(", ",", ")"))
   }
 
@@ -33,35 +36,42 @@ object ManoInocente {
           case soltera => Set(Persona(soltera, None))
       }
     }
-    personas.flatten.toSet
+    personas.flatten
   }
 
-  /** @todo Revisar el bucle while, hay un proceso infinito en el código y probablemente esté ahí. 
+  /** Devuelve una persona candidata a ser amiga de la persona que elige.
     *
-    * Combina personas de acuerdo a las reglas del juego de amigo invisible.
+    * La persona se elige al azar aplicando las restricciones definidas en [[Persona.puedeSerMiAmiga()]].
     *
-    * Toma dos conjuntos de personas y asigna aleatoriamente a cada persona del primer conjunto una persona del segundo con las siguientes restricciones (la condición de elegibilidad está implementada en [[Persona.puedeSerMiAmiga()]]):
+    * @param elige persona que elige amiga.
+    * @param elegidas conjunto de personas entre las que puede elegir.
+    * @return una persona candidata a ser amiga de la persona que elige.
+    */
+  @tailrec
+  def eligeAmiga(elige: Persona, elegidas: List[Persona]): Persona = {
+    if (elige puedeSerMiAmiga elegidas.head) elegidas.head
+    else eligeAmiga(elige, Random.shuffle(elegidas))
+  }
+
+  /** Devuelve un mapa de nombres de personas combinadas de acuerdo a las reglas del juego de amigo invisible.
     *
-    *  - No asigna una persona a sí misma.
-    *  - No asigna a una persona su pareja.
+    * Toma dos conjuntos de personas y asigna aleatoriamente a cada persona del primer conjunto una persona del segundo aplicando las restricciones definidas en [[Persona.puedeSerMiAmiga()]].
     *
-    * Si no se proporcionan conjuntos idénticos (eligen, elegidas) los resultados son impredecibles.
+    * Si los conjuntos no contienen los mismos elementos los resultados son impredecibles.
     *
     * @param eligen conjunto de las personas que eligen amiga.
-    * @param elegidas conjunto de las personas elegidas como amiga.
-    * @param combinaciones mapa en el que se registran las combinaciones de amigas.
+    * @param elegidas conjunto de las personas entre las que se puede elegir.
+    * @param combinaciones mapa en el que se registran las combinaciones.
     * @return mapa que relaciona el nombre de la persona con el de la amiga asignada.
     */
   @tailrec
-  def emparejaAmigas(eligen: Set[Persona], elegidas: Set[Persona], combinaciones: Map[String, String]): Map[String, String] = {
+  def emparejaAmigas(eligen: List[Persona], elegidas: List[Persona], combinaciones: Map[String, String]): Map[String, String] = {
     if (eligen.isEmpty || elegidas.isEmpty) {
       combinaciones
     } else {
       val elige = eligen.head
-      while (!(elige puedeSerMiAmiga elegidas.head)) {Random.shuffle(elegidas)}
-      val elegida = elegidas.head
-      combinaciones + (elige.nombre -> elegida.nombre)
-      emparejaAmigas(eligen.tail, elegidas.tail, combinaciones)
+      val elegida = eligeAmiga(elige, elegidas)
+      emparejaAmigas(eligen.tail, elegidas.tail, combinaciones + (elige.nombre -> elegida.nombre))
     }
   }
 }
