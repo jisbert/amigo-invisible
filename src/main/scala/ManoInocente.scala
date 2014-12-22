@@ -11,6 +11,7 @@ object ManoInocente {
     println(amigas.mkString("(", ",", ")"))
   }
 
+  // TODO: Averiguar si puede implementarse utilizando la funcionalidad implementada en la librería estándar
   /** Procesa nombres y devuelve un conjunto no ordenado de personas únicas.
     *
     * Por cada nombre genera, en función del patrón que adopta:
@@ -39,6 +40,7 @@ object ManoInocente {
     personas.flatten
   }
 
+  // TODO: Puede implementarse de forma no recursiva con seguridad
   /** Devuelve una persona candidata a ser amiga de la persona que elige.
     *
     * La persona se elige al azar aplicando las restricciones definidas en [[Persona.puedeSerMiAmiga()]].
@@ -53,6 +55,9 @@ object ManoInocente {
     else eligeAmiga(elige, Random.shuffle(elegidas))
   }
 
+  // TODO: Imponer una condición suficiente bajo la cual no es posible obtener un resultado
+  // TODO: Puede implementarse de forma no recursiva con seguridad
+  // TODO: Averiguar si puede implementarse utilizando la funcionalidad implementada en la librería estándar
   /** Devuelve un mapa de nombres de personas combinadas de acuerdo a las reglas del juego de amigo invisible.
     *
     * Toma dos conjuntos de personas y asigna aleatoriamente a cada persona del primer conjunto una persona del segundo aplicando las restricciones definidas en [[Persona.puedeSerMiAmiga()]].
